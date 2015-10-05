@@ -1,0 +1,54 @@
+Question 1) How many users are there?
+
+
+Answer 1) SELECT id COUNT FROM users;  this will list the entire column of id, but in case modifications had occured and the id count isn't equal to the number of items in the column, so we use COUNT:   SELECT COUNT(id) FROM users;
+
+
+Question 2) What are the 5 most expensive items?
+
+Answer 2) SELECT price FROM items ORDER BY price DESC LIMIT 5;
+
+Question 3) What's the cheapest book? (Does that change for "category is exactly 'book'" versus "category contains 'book'"?)
+
+Answer 3) SELECT * FROM items WHERE category='Books' ORDER BY price DESC LIMIT 1;     This will return all the information about the book.  If you just wanted price, you could change the * into price, and you could add any other information that you wanted, such as title, price.
+
+Question 4) Who lives at "6439 Zetta Hills, Willmouth, WY"? Do they have another address?
+
+Answer 4) In two steps, you can start with:  SELECT * FROM addresses WHERE street LIKE "%Zetta%";  This gives you the user ID listed as 40.  Then, to find out if they have any more addresses listed you can use:  SELECT * FROM addresses WHERE user_id=40;  This shows that YES, a second address of 54369 Wolff Forges Lake Bryon, CA 31587 is assigned to that user.  And her name is Corrine Little.
+
+IF TIME - set to return the street, city etc and try to get the user_id and zetta road step automated  *****HARD MODE*****
+
+
+Question 5) Correct Virginie Mitchell's address from "New York, NY, 12345" to something else.
+
+Answer 5) First we need to figure out how to identify Virginie Mitchell in the addresses table since her name is not listed, so we run SELECT * FROM users WHERE first_name LIKE "%Mitchell%"  OR SELECT * FROM users WHERE last_name LIKE "%Virginie%".  Once we get her user_id of 39, we can do the following:
+
+		  UPDATE addresses
+          SET street="742 Evergreen Terrace", city="Springfield", state="Nobody knows", zip="See above"
+		  WHERE user_id=39
+At this point, we could delete the duplicate entry with: DELETE FROM addresses WHERE id=42.
+We also could have only changed one of the addresses by changing the WHERE user_id=39 from above to WHERE id=42 or 41, whichever we wanted to change.
+
+
+Question 6) How many total items did we sell?
+
+Answer 6) SELECT COUNT(quantity) FROM orders;   377
+
+
+Question 7) Simulate buying an item by inserting a User for yourself and an Order for that User.
+
+Answer 7) To place yourself in the database, you can use: 
+
+INSERT INTO users (first_name, last_name, email)
+VALUES ("Carl", "Westmoreland", "nunya@business.com");
+
+After doing this you do the same thing for all of the other tables, although we could probably skip a few go straight to inserting into orders if we had a user_id automatically generated.  The commands I used are as follows:
+
+INSERT INTO addresses (user_id, street, city, state, zip)
+VALUES (51, "123 Fake St.", "Atlantamoe", "McGeorgia", "11112");
+
+INSERT INTO items (title, category, description, price)
+VALUES ("Cool Stuff", "Things that are Cool", "This shit is soooooo COOL!", 5446)
+
+INSERT INTO orders (user_id, item_id, quantity, created_at)
+VALUES (51, 101, 42, DATETIME('now'))
