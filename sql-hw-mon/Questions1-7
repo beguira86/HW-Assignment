@@ -52,3 +52,21 @@ VALUES ("Cool Stuff", "Things that are Cool", "This shit is soooooo COOL!", 5446
 
 INSERT INTO orders (user_id, item_id, quantity, created_at)
 VALUES (51, 101, 42, DATETIME('now'))
+
+Question 8) How much would it cost to buy one of each tool?
+
+Answer 8) SELECT SUM(price) FROM items WHERE category LIKE "%Tools%";
+
+Question 9) What item was ordered most often? Grossed the most money?
+
+Answer 9) 
+
+
+
+
+
+
+
+
+
+
